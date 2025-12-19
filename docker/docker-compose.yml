@@ -1,0 +1,134 @@
+version: "3.9"
+
+services:
+  # PostgreSQL for local development
+  postgres:
+    image: postgres:16
+    container_name: github_scraper_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-github_developers}
+      POSTGRES_USER: ${DB_USER:-ahmed}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-ahmed123}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-ahmed}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - scraper_network
+
+  # Username Scraper
+  username_scraper:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: github_username_scraper
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-github_developers}
+      DB_USER: ${DB_USER:-ahmed}
+      DB_PASSWORD: ${DB_PASSWORD:-ahmed123}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_TOKEN_1: ${GITHUB_TOKEN_1}
+      GITHUB_TOKEN_2: ${GITHUB_TOKEN_2}
+      GITHUB_TOKEN_3: ${GITHUB_TOKEN_3}
+    command: python -m src.scrapers.username_scraper
+    volumes:
+      - ../logs:/app/logs
+    networks:
+      - scraper_network
+    profiles:
+      - username
+
+  # Profile Scraper
+  profile_scraper:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: github_profile_scraper
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-github_developers}
+      DB_USER: ${DB_USER:-ahmed}
+      DB_PASSWORD: ${DB_PASSWORD:-ahmed123}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_TOKEN_1: ${GITHUB_TOKEN_1}
+      GITHUB_TOKEN_2: ${GITHUB_TOKEN_2}
+      GITHUB_TOKEN_3: ${GITHUB_TOKEN_3}
+    command: python -m src.scrapers.profile_scraper
+    volumes:
+      - ../logs:/app/logs
+    networks:
+      - scraper_network
+    profiles:
+      - profile
+
+  # Social Scraper
+  social_scraper:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: github_social_scraper
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-github_developers}
+      DB_USER: ${DB_USER:-ahmed}
+      DB_PASSWORD: ${DB_PASSWORD:-ahmed123}
+    command: python -m src.scrapers.social_scraper
+    volumes:
+      - ../logs:/app/logs
+    networks:
+      - scraper_network
+    profiles:
+      - social
+
+  # Scheduler (runs all scrapers on schedule)
+  scheduler:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: github_scheduler
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-github_developers}
+      DB_USER: ${DB_USER:-ahmed}
+      DB_PASSWORD: ${DB_PASSWORD:-ahmed123}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_TOKEN_1: ${GITHUB_TOKEN_1}
+      GITHUB_TOKEN_2: ${GITHUB_TOKEN_2}
+      GITHUB_TOKEN_3: ${GITHUB_TOKEN_3}
+    command: python scheduler.py
+    volumes:
+      - ../logs:/app/logs
+    networks:
+      - scraper_network
+    profiles:
+      - scheduler
+
+volumes:
+  postgres_data:
+
+networks:
+  scraper_network:
+    driver: bridge

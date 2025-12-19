@@ -1,0 +1,82 @@
+version: "3.9"
+
+services:
+  # Username Scraper for production (connects to RDS)
+  username_scraper:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: github_username_scraper_prod
+    environment:
+      DB_HOST: ${DB_HOST}  # RDS endpoint
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_TOKEN_1: ${GITHUB_TOKEN_1}
+      GITHUB_TOKEN_2: ${GITHUB_TOKEN_2}
+      GITHUB_TOKEN_3: ${GITHUB_TOKEN_3}
+    command: python -m src.scrapers.username_scraper
+    restart: "no"  # Run once
+    volumes:
+      - ./logs:/app/logs
+
+  # Profile Scraper for production
+  profile_scraper:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: github_profile_scraper_prod
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_TOKEN_1: ${GITHUB_TOKEN_1}
+      GITHUB_TOKEN_2: ${GITHUB_TOKEN_2}
+      GITHUB_TOKEN_3: ${GITHUB_TOKEN_3}
+    command: python -m src.scrapers.profile_scraper
+    restart: "no"
+    volumes:
+      - ./logs:/app/logs
+
+  # Social Scraper for production
+  social_scraper:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: github_social_scraper_prod
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    command: python -m src.scrapers.social_scraper
+    restart: "no"
+    volumes:
+      - ./logs:/app/logs
+
+  # Scheduler for production
+  scheduler:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: github_scheduler_prod
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_TOKEN_1: ${GITHUB_TOKEN_1}
+      GITHUB_TOKEN_2: ${GITHUB_TOKEN_2}
+      GITHUB_TOKEN_3: ${GITHUB_TOKEN_3}
+    command: python scheduler.py
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs

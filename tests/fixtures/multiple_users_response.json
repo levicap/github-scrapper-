@@ -1,0 +1,41 @@
+[
+  {
+    "login": "mourner",
+    "name": "Volodymyr Agafonkin",
+    "email": "agafonkin@gmail.com",
+    "bio": "Engineer at @mapbox, building mapping tools of the future. Creator of @Leaflet. Algorithms geek, rock musician, baker, father of twin girls, Ukrainian \ud83c\uddfa\ud83c\udde6",
+    "location": "Kyiv, Ukraine",
+    "company": "Mapbox",
+    "blog": "https://agafonkin.com",
+    "twitter_username": "mourner",
+    "followers": 6080,
+    "public_repos": 80,
+    "html_url": "https://github.com/mourner"
+  },
+  {
+    "login": "NARKOZ",
+    "name": "Nihad Abbasov",
+    "email": "hello@42na.in",
+    "bio": "Go, Ruby, and \ud83d\udda4",
+    "location": "Kyiv, Ukraine",
+    "company": null,
+    "blog": "",
+    "twitter_username": null,
+    "followers": 5304,
+    "public_repos": 97,
+    "html_url": "https://github.com/NARKOZ"
+  },
+  {
+    "login": "tshemsedinov",
+    "name": "Timur Shemsedinov",
+    "email": "timur.shemsedinov@gmail.com",
+    "bio": "30 years in IT, expert in node.js & javascript, private clouds, software engineering, cybernetics, distributed systems, architecture, databases",
+    "location": "Earth, Europe, Ukraine, Kiev, Kyiv, USA, Spain, Germany, Italy, China",
+    "company": "Architect at Metarhia; Lecturer at KPI",
+    "blog": "https://metarhia.com",
+    "twitter_username": "tshemsedinov",
+    "followers": 5204,
+    "public_repos": 57,
+    "html_url": "https://github.com/tshemsedinov"
+  }
+]

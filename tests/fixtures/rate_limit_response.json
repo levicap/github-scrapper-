@@ -1,0 +1,12 @@
+{
+  "core": {
+    "limit": 5000,
+    "remaining": 4999,
+    "reset": "2025-12-20T00:00:00"
+  },
+  "search": {
+    "limit": 30,
+    "remaining": 29,
+    "reset": "2025-12-20T00:00:00"
+  }
+}

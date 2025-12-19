@@ -1,0 +1,41 @@
+{
+  "query": "location:Kyiv created:2020-01-01..2020-12-31",
+  "total_count": 5,
+  "users": [
+    {
+      "login": "lgtome",
+      "id": 73399949,
+      "type": "User",
+      "html_url": "https://github.com/lgtome",
+      "avatar_url": "https://avatars.githubusercontent.com/u/73399949?v=4"
+    },
+    {
+      "login": "YaroslavPodorvanov",
+      "id": 63663261,
+      "type": "User",
+      "html_url": "https://github.com/YaroslavPodorvanov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63663261?v=4"
+    },
+    {
+      "login": "arcanexhoax",
+      "id": 62259600,
+      "type": "User",
+      "html_url": "https://github.com/arcanexhoax",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62259600?v=4"
+    },
+    {
+      "login": "spaceship-prompt",
+      "id": 63666505,
+      "type": "Organization",
+      "html_url": "https://github.com/spaceship-prompt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63666505?v=4"
+    },
+    {
+      "login": "DennisYurichev",
+      "id": 74623479,
+      "type": "User",
+      "html_url": "https://github.com/DennisYurichev",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74623479?v=4"
+    }
+  ]
+}
